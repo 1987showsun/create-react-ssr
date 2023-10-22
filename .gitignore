@@ -1,0 +1,7 @@
+/node_modules
+/server.js
+/dist
+/.env*
+package-lock.json
+*.icloud
+*.server.js
