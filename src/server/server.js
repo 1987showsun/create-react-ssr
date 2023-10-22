@@ -40,8 +40,8 @@ app.get('*', async(req, res) => {
   }
 });
 
-const port = process.env.CLINET_PORT || 5001;
-// const port = 5001;
+const port = process.env.CLIENT_SERVER_PORT || 5001;
 app.listen(port, () => {
-  console.log(`Clinet server listening on port: ${port}`);
+  console.log(`Use run mode ===> ${process.env.NODE_MODE}`)
+  console.log(`Clinet server listening on port ===> ${port}`);
 });
