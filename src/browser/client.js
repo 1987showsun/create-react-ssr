@@ -1,5 +1,4 @@
 import React, { Suspense } from 'react';
-import { useSelector } from 'react-redux';
 import ReactDom from 'react-dom/client';
 import { BrowserRouter, useRoutes } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -24,13 +23,13 @@ const App1 = ({ lang }) => {
 
 function Index() {
   return (
-    <Suspense fallback={<span>Loading...</span>}>
-      <Provider store={createStore()}>
-        <BrowserRouter basename={`/${lang}`}>
+    <Provider store={createStore}>
+      <BrowserRouter basename={`/${lang}`}>
+        <Suspense fallback={<span>Loading...</span>}>
           <App1 lang={lang} />
-        </BrowserRouter>
-      </Provider>
-    </Suspense>
+        </Suspense>
+      </BrowserRouter>
+    </Provider>
   );
 }
 

@@ -7,8 +7,8 @@ import path from 'path';
 import { matchRoutes   } from 'react-router-config';
 import { forSSRRouters } from '../router';
 import renderer from './render';
-import createStore from '../shared/redux/store';
-import { determineUserLang, supportedLangs, defaultLang } from '../common/i18n';
+import store from '../shared/redux/store';
+import { determineUserLang } from '../common/i18n';
 
 const app = express();
 
@@ -20,7 +20,6 @@ app.set('/server/views', path.join(__dirname, 'views'));
 
 app.get('*', async(req, res) => {
   const { path, query } = req;
-  const store = createStore();
   const { dispatch } = store;
   const lang = determineUserLang(req.acceptsLanguages(), path);
   const routes = matchRoutes(await forSSRRouters({}), path.replace(`/${lang}`, ''));
@@ -33,10 +32,9 @@ app.get('*', async(req, res) => {
   if (path.trim() === '/') {
     res.redirect(`${lang}${sarech.trim()!==''? `?${sarech}`:''}`);
   } else {
-    Promise.all(promises).then(() => {
-      const content = renderer(req, store);
-      res.send(content);
-    });
+    await Promise.all(promises);
+    const content = await renderer(req, store);
+    res.send(content);
   }
 });
 

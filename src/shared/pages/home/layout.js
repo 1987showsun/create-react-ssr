@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from "react-helmet";
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 // loadDate
 import loadData from './loadData';
@@ -29,6 +30,7 @@ const Home = ({
       </h1>
       <div>home</div>
       <div>{text}</div>
+      <Link to="/manage">manage</Link>
     </>
   );
 }

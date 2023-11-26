@@ -12,7 +12,7 @@ import { forSPARouters }      from '../router';
 
 const App = ({ lang, search, location }) => useRoutes(forSPARouters({lang, search, location }));
 
-export default (req, store) => {
+export default async(req, store) => {
   const { path, query } = req;
   const context = {};
   const initialData = store.getState();

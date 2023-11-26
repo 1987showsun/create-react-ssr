@@ -77,6 +77,7 @@ export const forSSRRouters = async({
     await forSPARouters({}).forEach( async(item) => {
         await objectToFlat( item );
     });
+
     const readjust = routesFlat.map(item => {
         if( item.path=="/*" ){
             item = { ...item, path: '/' };
