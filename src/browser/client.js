@@ -2,6 +2,11 @@ import React, { Suspense } from 'react';
 import ReactDom from 'react-dom/client';
 import { BrowserRouter, useRoutes } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 // i18n Language
 import { determineUserLang }        from '../common/i18n';
@@ -17,19 +22,24 @@ const lang = determineUserLang(
   window.location.pathname,
 );
 
+const queryClient = new QueryClient();
+
 const App1 = ({ lang }) => { 
   return useRoutes(forSPARouters({lang}));
 };
 
 function Index() {
   return (
-    <Provider store={createStore}>
-      <BrowserRouter basename={`/${lang}`}>
-        <Suspense fallback={<span>Loading...</span>}>
-          <App1 lang={lang} />
-        </Suspense>
-      </BrowserRouter>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={createStore}>
+        <BrowserRouter basename={`/${lang}`}>
+          <Suspense fallback={<span>Loading...</span>}>
+            <App1 lang={lang} />
+          </Suspense>
+        </BrowserRouter>
+      </Provider>
+      <ReactQueryDevtools initialIsOpen={process.env.NODE_ENV === 'development'} />
+    </QueryClientProvider>
   );
 }
 

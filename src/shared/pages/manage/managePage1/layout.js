@@ -1,24 +1,22 @@
 import { useEffect, useCallback } from "react";
 import { Helmet } from "react-helmet";
 import { Link, useBeforeUnload } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+// Actions
+import { GetManageUser } from '../../../redux/actions/manage';
 
 export default ({
 
 }) => {
 
-    const [state, setState] = React.useState(null);
-
-    useBeforeUnload(
-        useCallback(() => {
-          localStorage.stuff = state;
-        }, [state])
-    );
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        if (state === null && localStorage.stuff != null) {
-          setState(localStorage.stuff);
-        }
-    }, [state]);
+        (async() => {
+            await dispatch( GetManageUser({}) );
+        })();
+    })
 
     return(
         <>
