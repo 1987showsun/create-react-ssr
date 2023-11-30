@@ -8,6 +8,7 @@ export default (
         case "MANAGE_TEST":
             state = { ...state, text: payload };
             break;
+
             
         default:
             break;
