@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
@@ -31,7 +31,9 @@ const App = ({
       messages      = { messages[lang] }
       defaultLocale = { defaultLang }
     >
-      <Outlet />
+      <Suspense fallback={<span>Loading...</span>}>
+        <Outlet />
+      </Suspense>
       <ToastContainer 
         autoClose   = {5000}
         newestOnTop = {true}

@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import ReactDom from 'react-dom/client';
+import ReactDom, { hydrateRoot } from 'react-dom/client';
 import { BrowserRouter, useRoutes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import {
@@ -33,9 +33,7 @@ function Index() {
     <QueryClientProvider client={queryClient}>
       <Provider store={createStore}>
         <BrowserRouter basename={`/${lang}`}>
-          <Suspense fallback={<span>Loading...</span>}>
-            <App1 lang={lang} />
-          </Suspense>
+          <App1 lang={lang} />
         </BrowserRouter>
       </Provider>
       <ReactQueryDevtools initialIsOpen={process.env.NODE_ENV === 'development'} />
@@ -43,5 +41,8 @@ function Index() {
   );
 }
 
-const root = ReactDom.createRoot(document.getElementById('root'));
-root.render(<Index />);
+// const root = ReactDom.createRoot(document.getElementById('root'));
+// root.render(<Index />);
+
+// ReactDom.hydrateRoot(document.getElementById('root'), <Index />);
+hydrateRoot(document.getElementById('root'), <Index />);

@@ -17,7 +17,7 @@ const Home = ({
   useEffect(() => {
     (async() => {
       await loadData({ dispatch })
-    })()
+    })();
   }, []);
 
   return(
@@ -38,7 +38,7 @@ const Home = ({
 Home.loadDate = async({
   dispatch
 }) => {
-  console.log('123123131231231231231231');
+  // console.log('123123131231231231231231');
   return null;
 }
 

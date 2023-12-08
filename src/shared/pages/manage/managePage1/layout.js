@@ -24,6 +24,7 @@ export default ({
         <>
             <Helmet>
                 <title>manage</title>
+                <meta name="description" content="Helmet application" />
             </Helmet>
             <div>manage page1 : {text}</div>
             <Link to="/">home</Link>

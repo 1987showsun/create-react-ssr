@@ -1,4 +1,5 @@
 require("dotenv").config();
+import favicon from 'serve-favicon';
 import express from 'express';
 import queryString from 'query-string';
 import cors from 'cors';
@@ -17,6 +18,7 @@ app.use(logger('dev'));
 app.use(express.static('dist'));
 app.set('view engine', 'ejs');
 app.set('/server/views', path.join(__dirname, 'views'));
+app.use(favicon(path.join(__dirname, './dist/assets/images', 'favicon.ico')));
 
 app.get('*', async(req, res) => {
   const { path, query } = req;
@@ -33,7 +35,7 @@ app.get('*', async(req, res) => {
     res.redirect(`${lang}${sarech.trim()!==''? `?${sarech}`:''}`);
   } else {
     await Promise.all(promises);
-    const content = await renderer(req, store);
+    const content = await renderer(req, res, store);
     res.send(content);
   }
 });
