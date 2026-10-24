@@ -31,6 +31,7 @@ const App = ({
       messages      = { messages[lang] }
       defaultLocale = { defaultLang }
     >
+      <div>test spa</div>
       <Suspense fallback={<span>Loading...</span>}>
         <Outlet />
       </Suspense>

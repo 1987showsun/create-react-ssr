@@ -4,15 +4,15 @@ export default (
     },action
 ) => {
     const { type="", payload="", list=[] } = action;
-    switch( type ){
+    switch (type) {
         case "MANAGE_TEST":
-            state = { ...state, text: payload };
-            break;
-
+            // 直接回傳新物件，避免直接操作 state
+            return { 
+                ...state, 
+                text: payload 
+            };
             
         default:
-            break;
+            return state; // 預設直接回傳原本的 state
     }
-
-    return state;
 }

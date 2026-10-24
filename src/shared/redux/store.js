@@ -6,7 +6,7 @@ import { batchedSubscribe } from 'redux-batched-subscribe';
 import home from './reducers/home';
 import manage from './reducers/manage';
 
-export default configureStore({
+export default () => configureStore({
     reducer: {
         home,
         manage

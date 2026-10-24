@@ -14,11 +14,11 @@ const Home = ({
   const dispatch = useDispatch();
   const { text } = useSelector(state => state.home);
 
-  useEffect(() => {
-    (async() => {
-      await loadData({ dispatch })
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async() => {
+  //     await loadData({ dispatch })
+  //   })();
+  // }, []);
 
   return(
     <>
@@ -35,11 +35,11 @@ const Home = ({
   );
 }
 
-Home.loadDate = async({
-  dispatch
-}) => {
-  // console.log('123123131231231231231231');
-  return null;
-}
+// Home.loadDate = async({
+//   dispatch
+// }) => {
+//   // console.log('123123131231231231231231');
+//   return null;
+// }
 
 export default Home;

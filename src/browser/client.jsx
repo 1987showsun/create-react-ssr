@@ -31,7 +31,7 @@ const App1 = ({ lang }) => {
 function Index() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Provider store={createStore}>
+      <Provider store={createStore()}>
         <BrowserRouter basename={`/${lang}`}>
           <App1 lang={lang} />
         </BrowserRouter>

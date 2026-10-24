@@ -2,8 +2,8 @@
  *   Copyright (c) 2021 
  *   All rights reserved.
  */
-@import "./form.scss";
-@import "./slider.scss";
+@use "./form.scss";
+@use "./slider.scss";
 
 :root {
     --function   : #5a6268;

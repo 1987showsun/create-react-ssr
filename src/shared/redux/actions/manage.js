@@ -13,27 +13,34 @@ export const GetManageUser = ({  }) => {
     };
 }   
 
-export const testManagAction = ({  }) => {
+export const testManagAction = ({ data=null, params=null }) => {
     return async(dispatch) => {
-        
-        const res = await axios({
-            method: "get", // post / put / delete
-            url   : `https://randomuser.me/api/`,
-            data  : {},
-            params: {},
-        });
+        try {
+            console.log('>>> 正在伺服器端發送 API 請求...');
 
-        const {
-            data: {
-                results= {}
-            }
-        } = res;
+            const res = await axios({
+                method: "get", // post / put / delete
+                url   : `https://randomuser.me/api/`,
+                ...data   && {data  : {}},
+                ...params && {params: {}},
+            });
 
-        dispatch({
-            type: 'MANAGE_TEST',
-            payload: results[0].email
-        })
+            console.log('>>> API 回傳結果:', res.data);
 
-        return;
+            // 確保 results 是陣列，並正確取得第一個使用者的 email
+            const results = res.data && res.data.results ? res.data.results : [];
+            const email = results.length > 0 ? results[0].email : '';
+
+            dispatch({
+                type: 'MANAGE_TEST',
+                payload: email
+            });
+
+            // 務必回傳資料或 res，讓上層的 loadData 能正確 await
+            return email;
+        }catch (error) {
+            console.error(">>> SSR API 請求失敗錯誤:", error);
+            return null;
+        }
     };
 }   
