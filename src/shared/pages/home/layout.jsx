@@ -4,21 +4,12 @@ import { Helmet } from "react-helmet";
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 
-// loadDate
-import loadData from './loadData';
-
 const Home = ({ 
 
 }) => {
 
   const dispatch = useDispatch();
   const { text } = useSelector(state => state.home);
-
-  // useEffect(() => {
-  //   (async() => {
-  //     await loadData({ dispatch })
-  //   })();
-  // }, []);
 
   return(
     <>
@@ -34,12 +25,5 @@ const Home = ({
     </>
   );
 }
-
-// Home.loadDate = async({
-//   dispatch
-// }) => {
-//   // console.log('123123131231231231231231');
-//   return null;
-// }
 
 export default Home;

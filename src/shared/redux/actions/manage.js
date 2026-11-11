@@ -14,7 +14,11 @@ export const GetManageUser = ({  }) => {
 }   
 
 export const testManagAction = ({ data=null, params=null }) => {
-    return async(dispatch) => {
+    return async(dispatch, getState) => {
+        const currentText = getState().manage.text;
+
+        // 如果資料已經存在（代表 SSR 已經在伺服器端抓過並注入了），直接跳過不發 API！
+        if (currentText && currentText.trim() !== '') return;
         try {
             console.log('>>> 正在伺服器端發送 API 請求...');
 
@@ -29,14 +33,13 @@ export const testManagAction = ({ data=null, params=null }) => {
 
             // 確保 results 是陣列，並正確取得第一個使用者的 email
             const results = res.data && res.data.results ? res.data.results : [];
-            const email = results.length > 0 ? results[0].email : '';
+            const email   = results.length > 0 ? results[0].email : '';
 
             dispatch({
                 type: 'MANAGE_TEST',
                 payload: email
             });
 
-            // 務必回傳資料或 res，讓上層的 loadData 能正確 await
             return email;
         }catch (error) {
             console.error(">>> SSR API 請求失敗錯誤:", error);
