@@ -1,49 +1,15 @@
-import axios from '../../hooks/axios';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { getManageApi } from '../../api/manage';
 
-export const GetManageUser = ({  }) => {
-    return async(dispatch) => {
-        // const res = axios({
-        //     method: "get", // post / put / delete
-        //     url   : `/apipath`,
-        //     data  : {},
-        //     params: {},
-        // });
-
-        // return res;
-    };
-}   
-
-export const testManagAction = ({ data=null, params=null }) => {
-    return async(dispatch, getState) => {
-        const currentText = getState().manage.text;
-
-        // 如果資料已經存在（代表 SSR 已經在伺服器端抓過並注入了），直接跳過不發 API！
-        if (currentText && currentText.trim() !== '') return;
+export const fetchManageData = createAsyncThunk('manage/fetchManageData', async (_, { rejectWithValue }) => {
         try {
-            console.log('>>> 正在伺服器端發送 API 請求...');
-
-            const res = await axios({
-                method: "get", // post / put / delete
-                url   : `https://randomuser.me/api/`,
-                ...data   && {data  : {}},
-                ...params && {params: {}},
-            });
-
-            console.log('>>> API 回傳結果:', res.data);
-
-            // 確保 results 是陣列，並正確取得第一個使用者的 email
-            const results = res.data && res.data.results ? res.data.results : [];
-            const email   = results.length > 0 ? results[0].email : '';
-
-            dispatch({
-                type: 'MANAGE_TEST',
-                payload: email
-            });
-
-            return email;
-        }catch (error) {
-            console.error(">>> SSR API 請求失敗錯誤:", error);
-            return null;
+            // 使用 axios.get，資料會自動包在 response.data 裡面
+            const data = await getManageApi();
+            return data;
+        } catch (error) {
+            // Axios 的錯誤處理：若後端有回傳錯誤訊息，可以抓 error.response.data，否則抓 error.message
+            const errorMessage = error.response?.data?.message || error.message;
+            return rejectWithValue(errorMessage);
         }
-    };
-}   
+    }
+);

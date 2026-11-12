@@ -5,19 +5,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from '@tanstack/react-query';
 
 // Actions
-import { GetManageUser, testManagAction } from '../../../redux/actions/manage';
+import { fetchManageData } from '../../../redux/actions/manage';
 
-import axios from '../../../hooks/axios'; // 你的 axios
+// Apis
+import { getManageApi } from '../../../api/manage';
 
-const fetchManageUser = async () => {
-    const res = await axios.get('https://randomuser.me/api/');
-    return res.data.results[0].email;
-};
 
 // 💡 匯出共用的 loadServerData，供 Server 端與 Client 端共用
 export const loadServerData = {
     queryKey : ['manageUser'],
-    queryFn  : fetchManageUser,
+    queryFn  : getManageApi,
+    select   : (serverData) => {
+        return serverData.results[0].email;
+    }
 };
 
 export default ({
@@ -27,6 +27,10 @@ export default ({
     const dispatch = useDispatch();
 
     const { data: text, isLoading } = useQuery(loadServerData);
+
+    useEffect(() => {
+        dispatch(fetchManageData());
+    }, []);
 
     return(
         <>
